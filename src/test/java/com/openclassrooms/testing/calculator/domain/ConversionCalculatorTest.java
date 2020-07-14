@@ -1,13 +1,11 @@
 package com.openclassrooms.testing.calculator.domain;
 
-import com.openclassrooms.testing.calculator.domain.ConversionCalculator;
-import org.junit.Test;
-
 import static java.lang.Math.PI;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+
+import org.junit.Test;
 public class ConversionCalculatorTest {
 
     private ConversionCalculator calculatorUnderTest = new ConversionCalculator();

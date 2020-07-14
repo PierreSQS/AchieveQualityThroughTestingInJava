@@ -1,25 +1,29 @@
 package com.openclassrooms.testing.calculator.service;
 
-import com.openclassrooms.testing.calculator.domain.Calculator;
-import com.openclassrooms.testing.calculator.domain.model.CalculationModel;
-import com.openclassrooms.testing.calculator.domain.model.CalculationType;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import com.openclassrooms.testing.calculator.domain.Calculator;
+import com.openclassrooms.testing.calculator.domain.model.CalculationModel;
+import com.openclassrooms.testing.calculator.domain.model.CalculationType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BatchCalculatorComponentIntegrationTest {
