@@ -19,18 +19,18 @@ public class SolutionFormatterImplTest {
     @Test
     public void format_returnsACommaAfterThreeDigits_onOneHundredThousandAndTwenty(){
         String result = underTest.format(100020);
-        assertThat(result, is(equalTo("100,020")));
+        assertThat(result, is(equalTo("100.020")));
     }
 
     @Test
     public void format_returnsACommaAfterThreeDigits_onMinusOneHundredThousandAndTwenty(){
         String result = underTest.format(-100020);
-        assertThat(result, is(equalTo("-100,020")));
+        assertThat(result, is(equalTo("-100.020")));
     }
 
     @Test
     public void format_returnsACommaAfterOneAndFourDigits_onOneMillionAndTwenty(){
         String result = underTest.format(1000020);
-        assertThat(result, is(equalTo("1,000,020")));
+        assertThat(result, is(equalTo("1.000.020")));
     }
 }

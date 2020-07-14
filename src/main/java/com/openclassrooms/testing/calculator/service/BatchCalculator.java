@@ -24,7 +24,7 @@ public class BatchCalculator implements Solver {
      * Constructor
      * @param batchCalculationFileService instance used to read the batch file
      * @param calculator instance used to solve problems
-     * @param formatter
+     * @param formatter the formatter of the solution (result format)
      */
     public BatchCalculator(BatchCalculationFileService batchCalculationFileService, Calculator calculator,
                            SolutionFormatter formatter) {
