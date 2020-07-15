@@ -38,7 +38,7 @@ public class BatchCalculatorPierrotTest {
 	@Before
 	public void setUp() throws IOException {
 		Stream<String> calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
-		when(batchCalculationFileSrv.read(PATH_TO_FAKE_FILE)).thenReturn(calculations);
+		when(batchCalculationFileSrv.read(Mockito.any(String.class))).thenReturn(calculations);
 		
 		classUnderTest = new BatchCalculator(batchCalculationFileSrv, calculator, formatter);
 		
