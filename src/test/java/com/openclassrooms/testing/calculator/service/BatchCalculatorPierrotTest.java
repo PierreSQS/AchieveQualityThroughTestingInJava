@@ -9,22 +9,21 @@ import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import com.openclassrooms.testing.calculator.domain.Calculator;
 import com.openclassrooms.testing.calculator.domain.model.CalculationModel;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BatchCalculatorPierrotTest {
 	
 	private static final String PATH_TO_FAKE_FILE = "/path/to/fake/file";
 
-//	private List<String> calculations;
-	
 	private BatchCalculator classUnderTest;
 	
 	@Mock
@@ -39,7 +38,7 @@ public class BatchCalculatorPierrotTest {
 	@Before
 	public void setUp() throws IOException {
 		Stream<String> calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
-		when(batchCalculationFileSrv.read(Mockito.any(String.class))).thenReturn(calculations);
+		when(batchCalculationFileSrv.read(PATH_TO_FAKE_FILE)).thenReturn(calculations);
 		
 		classUnderTest = new BatchCalculator(batchCalculationFileSrv, calculator, formatter);
 		
