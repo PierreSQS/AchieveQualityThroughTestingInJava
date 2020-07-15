@@ -70,8 +70,9 @@ public class BatchCalculatorComponentIntegrationTest {
         // ACT
         List<CalculationModel> actual = classUnderTest.calculateFromFile(FIXTURE_FILE);
 
+        // assertThat(actual, hasSize(2));
         // ASSERT we get back usable models
-        assertThat(actual, hasSize(2));
+        assertThat(actual, hasSize(5));// adapted by Pierrot because of changes in the calculations resource file
     }
 
     @Test

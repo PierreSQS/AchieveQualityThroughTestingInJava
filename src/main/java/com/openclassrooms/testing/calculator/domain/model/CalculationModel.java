@@ -74,4 +74,10 @@ public class CalculationModel {
     public void setFormattedSolution(String formattedSolution) {
         this.formattedSolution = formattedSolution;
     }
+
+	@Override
+	public String toString() {
+		return "CalculationModel [leftArgument=" + leftArgument + ", rightArgument=" + rightArgument + ", type=" + type
+				+ ", solution=" + solution + ", formattedSolution=" + formattedSolution + "]";
+	}
 }
