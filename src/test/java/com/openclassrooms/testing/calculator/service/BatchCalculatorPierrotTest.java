@@ -21,12 +21,14 @@ import com.openclassrooms.testing.calculator.domain.model.CalculationModel;
 
 public class BatchCalculatorPierrotTest {
 	
-	private List<String> calculations;
+	private static final String PATH_TO_FAKE_FILE = "/path/to/fake/file";
+
+//	private List<String> calculations;
 	
 	private BatchCalculator classUnderTest;
 	
 	@Mock
-	private BatchCalculationFileService batchCalculationFileService;
+	private BatchCalculationFileService batchCalculationFileSrv;
     
 	@Mock
 	private Calculator calculator;
@@ -35,10 +37,11 @@ public class BatchCalculatorPierrotTest {
 	private SolutionFormatter formatter;
 	
 	@Before
-	public void setUp() {
-		calculations = Arrays.asList("3+4", "4x5","20/5");
+	public void setUp() throws IOException {
+		Stream<String> calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
+		when(batchCalculationFileSrv.read(Mockito.any(String.class))).thenReturn(calculations);
 		
-		classUnderTest = new BatchCalculator(batchCalculationFileService, calculator, formatter);
+		classUnderTest = new BatchCalculator(batchCalculationFileSrv, calculator, formatter);
 		
 	}
 	
@@ -50,6 +53,16 @@ public class BatchCalculatorPierrotTest {
 		// classUnderTest.calculateFromFile(Mockito.anyString());
 		// Assert
 		
+	}
+	
+	@Test
+	public void calculateFromFile_shouldOpenTheRightFile_whenGivenAPath() throws IOException {
+		// Act
+		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
+		
+		// Assert 
+		// there for we verify that read Method of the BatchCalculatorService is called
+		verify(batchCalculationFileSrv).read(PATH_TO_FAKE_FILE);
 	}
 	
 	@Test // not to recommend
