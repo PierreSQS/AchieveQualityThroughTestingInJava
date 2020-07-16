@@ -1,6 +1,8 @@
 package com.openclassrooms.testing.calculator.service;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,23 +42,30 @@ public class BatchCalculatorPierrotTest {
 	@Mock
 	private SolutionFormatter formatter;
 	
-	@Before
+	@Before // Arrange
 	public void setUp() throws IOException {
-		calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
+		calculations = Arrays.asList("2 * 4", "-50 + 4", "8 / 4", "19 + 11").stream();
 		when(batchCalculationFileSrv.read(Mockito.any(String.class))).thenReturn(calculations);
+		
+		// Setup the calculator
+		when(calculator.add(-50, 4)).thenReturn(-46);
+		when(calculator.add(19, 11)).thenReturn(30);
+		when(calculator.multiply(2, 4)).thenReturn(8);
 		
 		classUnderTest = new BatchCalculator(batchCalculationFileSrv, calculator, formatter);
 		
 	}
 	
 	@Test
-	public void calculate_When_given_A_Solution() throws IOException {
-		// Arrange
-		
+	public void calculateFromFile_shouldReturnTheCorrectAnswer_forAdditions() throws IOException {
 		// Act
-		// classUnderTest.calculateFromFile(Mockito.anyString());
+		when(batchCalculationFileSrv.read(PATH_TO_FAKE_FILE)).thenReturn(calculations);
+		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
+
 		// Assert
-		
+		assertThat(calculationsFromFile.get(1).getSolution(), is(equalTo(-46)));
+		assertThat(calculationsFromFile.get(3).getSolution(), is(equalTo(30)));
+
 	}
 	
 	@Test
@@ -66,7 +75,17 @@ public class BatchCalculatorPierrotTest {
 		
 		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
 		
-		assertThat(calculationsFromFile, hasSize(3));
+		assertThat(calculationsFromFile, hasSize(4));
+	}
+	
+	@Test
+	public void calculateFromFile_shouldCorrectlyMultiplyWithTheCalculator_forProducts() throws IOException {
+		// Act
+		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
+		
+		// Assert
+		assertThat(calculationsFromFile.get(0).getSolution(), is(equalTo(8)));
+		
 	}
 	
 	@Test
