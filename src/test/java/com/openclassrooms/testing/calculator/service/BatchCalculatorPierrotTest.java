@@ -1,5 +1,10 @@
 package com.openclassrooms.testing.calculator.service;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.*;
-
 import com.openclassrooms.testing.calculator.domain.Calculator;
 import com.openclassrooms.testing.calculator.domain.model.CalculationModel;
 
@@ -24,6 +27,8 @@ public class BatchCalculatorPierrotTest {
 	
 	private static final String PATH_TO_FAKE_FILE = "/path/to/fake/file";
 
+	private Stream<String> calculations;
+	
 	private BatchCalculator classUnderTest;
 	
 	@Mock
@@ -37,7 +42,7 @@ public class BatchCalculatorPierrotTest {
 	
 	@Before
 	public void setUp() throws IOException {
-		Stream<String> calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
+		calculations = Arrays.asList("3 + 4", "4 x 5", "20 / 5").stream();
 		when(batchCalculationFileSrv.read(Mockito.any(String.class))).thenReturn(calculations);
 		
 		classUnderTest = new BatchCalculator(batchCalculationFileSrv, calculator, formatter);
@@ -55,9 +60,19 @@ public class BatchCalculatorPierrotTest {
 	}
 	
 	@Test
+	public void calculateFromFile_shouldReturnThreeSolutions_forThreeCalculations() throws IOException {
+		
+		when(batchCalculationFileSrv.read(PATH_TO_FAKE_FILE)).thenReturn(calculations);
+		
+		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
+		
+		assertThat(calculationsFromFile, hasSize(3));
+	}
+	
+	@Test
 	public void calculateFromFile_shouldOpenTheRightFile_whenGivenAPath() throws IOException {
 		// Act
-		List<CalculationModel> calculationsFromFile = classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
+		classUnderTest.calculateFromFile(PATH_TO_FAKE_FILE);
 		
 		// Assert 
 		// there for we verify that read Method of the BatchCalculatorService is called
